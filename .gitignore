@@ -1,0 +1,15 @@
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+target/
+data/
+*.log
+.mvn/wrapper/maven-wrapper.jar
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+backend/data/
+backend/*.db
+.env
