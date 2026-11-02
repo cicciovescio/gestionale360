@@ -12,6 +12,7 @@ import it.meridiana.domain.Installment;
 import it.meridiana.domain.Item;
 import it.meridiana.domain.LedgerMove;
 import it.meridiana.domain.Party;
+import it.meridiana.domain.PaymentTerm;
 import it.meridiana.domain.StockMove;
 import it.meridiana.domain.Warehouse;
 import it.meridiana.repo.DocRepository;
@@ -230,7 +231,7 @@ public class DocumentService {
             doc.setPaymentTerm(view.paymentTerm());
         }
         doc.setWarehouseId(view.warehouseId());
-        doc.setSkipStock(view.skipStock());
+        doc.setSkipStock(Boolean.TRUE.equals(view.skipStock()));
         doc.setAgentName(view.agentName());
         doc.setNotes(view.notes());
         doc.setStampDuty(Mapper.nz(view.stampDuty()));
@@ -338,7 +339,8 @@ public class DocumentService {
         if (!createsInstallments(doc.getType())) {
             return;
         }
-        List<Integer> offsets = doc.getPaymentTerm().offsets();
+        PaymentTerm term = doc.getPaymentTerm() == null ? PaymentTerm.D30 : doc.getPaymentTerm();
+        List<Integer> offsets = term.offsets();
         BigDecimal slice = doc.getTotal().divide(BigDecimal.valueOf(offsets.size()), 2, RoundingMode.HALF_UP);
         BigDecimal allocated = BigDecimal.ZERO;
         for (int i = 0; i < offsets.size(); i++) {

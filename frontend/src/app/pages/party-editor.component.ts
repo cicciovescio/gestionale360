@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../core/api.service';
+import { apiError } from '../core/errors';
 import { Party } from '../core/models';
 
 @Component({
@@ -18,6 +19,7 @@ import { Party } from '../core/models';
         <button class="btn accent" (click)="save()">Salva</button>
       </div>
     </div>
+    @if (error) { <p class="muted" style="color:#b42318;margin:0 0 12px">{{ error }}</p> }
     <div class="form-card panel">
       <div class="form-grid">
         <div class="field"><label>Nome / Ragione sociale</label><input [(ngModel)]="model.name" name="name"></div>
@@ -56,6 +58,7 @@ export class PartyEditorComponent {
   private router = inject(Router);
   kind = 'CUSTOMER';
   listPath = '/app/anagrafiche/clienti';
+  error = '';
   model: Party = { kind: 'CUSTOMER', name: '', legalForm: 'Azienda', paymentTerm: 'D30', active: true };
 
   constructor() {
@@ -71,8 +74,16 @@ export class PartyEditorComponent {
   }
 
   save() {
+    this.error = '';
     this.model.kind = this.kind;
-    this.api.saveParty(this.model).subscribe(() => this.back());
+    if (!this.model.name?.trim()) {
+      this.error = 'Inserisci il nome / ragione sociale.';
+      return;
+    }
+    this.api.saveParty(this.model).subscribe({
+      next: () => this.back(),
+      error: e => this.error = apiError(e)
+    });
   }
   back() { this.router.navigateByUrl(this.listPath); }
 }

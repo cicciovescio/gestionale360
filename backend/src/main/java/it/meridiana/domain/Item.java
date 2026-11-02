@@ -2,7 +2,6 @@ package it.meridiana.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,7 +24,7 @@ public class Item extends BaseEntity {
     private boolean stockManaged = true;
     private BigDecimal stockQty = BigDecimal.ZERO;
     private String warehouseName = "Sede";
-    @Lob
+    @Column(columnDefinition = "text")
     private String notes;
     private boolean active = true;
 }

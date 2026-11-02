@@ -4,7 +4,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.Lob;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,7 +34,7 @@ public class Party extends BaseEntity {
     private String agentName;
     private BigDecimal commissionPct = BigDecimal.ZERO;
     private boolean active = true;
-    @Lob
+    @Column(columnDefinition = "text")
     private String notes;
     @Column(length = 40)
     private String category;

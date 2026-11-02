@@ -4,7 +4,6 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
@@ -38,7 +37,7 @@ public class Doc extends BaseEntity {
     private boolean skipStock;
     private String agentName;
     private String convertedFromId;
-    @Lob
+    @jakarta.persistence.Column(columnDefinition = "text")
     private String notes;
     private BigDecimal taxable = BigDecimal.ZERO;
     private BigDecimal tax = BigDecimal.ZERO;

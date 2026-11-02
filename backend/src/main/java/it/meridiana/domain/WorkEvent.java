@@ -3,7 +3,6 @@ package it.meridiana.domain;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.Lob;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +20,6 @@ public class WorkEvent extends BaseEntity {
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private String status;
-    @Lob
+    @jakarta.persistence.Column(columnDefinition = "text")
     private String notes;
 }

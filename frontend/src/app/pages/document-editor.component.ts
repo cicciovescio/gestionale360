@@ -2,6 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../core/api.service';
+import { apiError } from '../core/errors';
 import { CONVERT_MAP, DOC_LABELS, Doc, DocLine, Item, Party } from '../core/models';
 import { euro, statusChip, statusLabel } from '../core/money';
 
@@ -37,6 +38,7 @@ import { euro, statusChip, statusLabel } from '../core/money';
         }
       </div>
     </div>
+    @if (error) { <p class="muted" style="color:#b42318;margin:0 0 12px">{{ error }}</p> }
     <div class="grid-editor">
       <div class="panel">
         <div class="form-grid">
@@ -130,6 +132,7 @@ export class DocumentEditorComponent {
   items = signal<Item[]>([]);
   model: Doc = this.empty('SALE_INVOICE');
   listPath = '/app/vendite/fatture';
+  error = '';
 
   converts = computed(() => CONVERT_MAP[this.model.type] || []);
 
@@ -153,7 +156,7 @@ export class DocumentEditorComponent {
   }
 
   empty(type: string): Doc {
-    return { type, status: 'DRAFT', series: 'A', date: new Date().toISOString().slice(0, 10), paymentTerm: 'D30', lines: [this.blank()] };
+    return { type, status: 'DRAFT', series: 'A', date: new Date().toISOString().slice(0, 10), paymentTerm: 'D30', skipStock: false, lines: [this.blank()] };
   }
   blank(): DocLine { return { lineKind: 'ITEM', qty: 1, unitPrice: 0, discountPct: 0, vatRate: 22, description: '' }; }
   addLine() { this.model.lines = [...(this.model.lines || []), this.blank()]; }
@@ -188,9 +191,24 @@ export class DocumentEditorComponent {
   }
   feable() { return ['SALE_INVOICE', 'SALE_CREDIT_NOTE', 'SALE_SELF_INVOICE'].includes(this.model.type); }
   save(confirm: boolean) {
-    this.api.saveDocument(this.model).subscribe(doc => {
-      this.model = doc;
-      if (confirm && doc.id) this.api.confirm(doc.id).subscribe(d => { this.model = d; });
+    this.error = '';
+    if (!this.model.partyId) {
+      this.error = 'Seleziona un cliente o fornitore.';
+      return;
+    }
+    this.api.saveDocument(this.model).subscribe({
+      next: doc => {
+        this.model = doc;
+        if (confirm && doc.id) {
+          this.api.confirm(doc.id).subscribe({
+            next: d => { this.model = d; this.back(); },
+            error: e => this.error = apiError(e)
+          });
+        } else {
+          this.back();
+        }
+      },
+      error: e => this.error = apiError(e)
     });
   }
   convert(type: string) { if (this.model.id) this.api.convert(this.model.id, type).subscribe(d => this.router.navigate(['/app/documenti', d.id])); }

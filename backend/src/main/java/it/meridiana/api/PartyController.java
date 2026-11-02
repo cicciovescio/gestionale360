@@ -38,8 +38,14 @@ public class PartyController {
 
     @PostMapping
     public Api.PartyView create(@RequestBody Api.PartyView view) {
+        if (view.name() == null || view.name().isBlank()) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Nome obbligatorio");
+        }
         Party p = new Party();
         Mapper.copyParty(p, view);
+        if (p.getKind() == null) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Tipo anagrafica obbligatorio");
+        }
         return Mapper.party(parties.save(p));
     }
 

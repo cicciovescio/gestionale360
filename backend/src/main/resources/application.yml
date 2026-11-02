@@ -22,6 +22,9 @@ spring:
   jackson:
     serialization:
       write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+      fail-on-null-for-primitives: false
 
 meridiana:
   jwt-secret: ${MERIDIANA_JWT_SECRET:meridiana-local-dev-secret-change-me-32chars-min!!}

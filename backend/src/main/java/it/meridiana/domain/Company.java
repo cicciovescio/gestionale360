@@ -1,7 +1,6 @@
 package it.meridiana.domain;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,7 +21,7 @@ public class Company extends BaseEntity {
     private String email;
     private String iban;
     private String bankName;
-    @Lob
+    @jakarta.persistence.Column(columnDefinition = "text")
     private String notes;
     private int einvoiceCredits = 1500;
 }

@@ -49,7 +49,7 @@ public final class Mapper {
         p.setPriceListName(v.priceListName());
         p.setAgentName(v.agentName());
         p.setCommissionPct(nz(v.commissionPct()));
-        p.setActive(v.active());
+        p.setActive(v.active() == null || v.active());
         p.setNotes(v.notes());
         p.setCategory(v.category());
     }
@@ -72,13 +72,13 @@ public final class Mapper {
         i.setVatRate(nz(v.vatRate()));
         i.setListPrice(nz(v.listPrice()));
         i.setCostPrice(nz(v.costPrice()));
-        i.setStockManaged(v.stockManaged());
+        i.setStockManaged(v.stockManaged() == null || v.stockManaged());
         if (v.stockQty() != null) {
             i.setStockQty(v.stockQty());
         }
         i.setWarehouseName(v.warehouseName());
         i.setNotes(v.notes());
-        i.setActive(v.active());
+        i.setActive(v.active() == null || v.active());
     }
 
     public static Api.LineView line(DocLine l) {

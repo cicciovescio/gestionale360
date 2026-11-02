@@ -31,19 +31,19 @@ public final class Api {
             String id, PartyKind kind, String legalForm, String name, String vatNumber, String fiscalCode,
             String sdiCode, String pec, String address, String city, String zip, String province,
             String email, String phone, String iban, PaymentTerm paymentTerm, String priceListName,
-            String agentName, BigDecimal commissionPct, boolean active, String notes, String category
+            String agentName, BigDecimal commissionPct, Boolean active, String notes, String category
     ) {
     }
 
     public record ItemView(
             String id, String code, String name, String kind, String category, String brand, String unit,
-            BigDecimal vatRate, BigDecimal listPrice, BigDecimal costPrice, boolean stockManaged,
-            BigDecimal stockQty, String warehouseName, String notes, boolean active
+            BigDecimal vatRate, BigDecimal listPrice, BigDecimal costPrice, Boolean stockManaged,
+            BigDecimal stockQty, String warehouseName, String notes, Boolean active
     ) {
     }
 
     public record LineView(
-            String id, int lineNo, String lineKind, String itemId, String code, String description, String unit,
+            String id, Integer lineNo, String lineKind, String itemId, String code, String description, String unit,
             BigDecimal qty, BigDecimal unitPrice, BigDecimal discountPct, BigDecimal vatRate,
             BigDecimal taxable, BigDecimal tax, BigDecimal total
     ) {
@@ -52,7 +52,7 @@ public final class Api {
     public record DocView(
             String id, DocumentType type, DocumentStatus status, EinvoiceStatus einvoiceStatus,
             String number, String series, LocalDate date, String partyId, String partyName,
-            PaymentTerm paymentTerm, String warehouseId, boolean skipStock, String agentName,
+            PaymentTerm paymentTerm, String warehouseId, Boolean skipStock, String agentName,
             String convertedFromId, String notes, BigDecimal taxable, BigDecimal tax, BigDecimal stampDuty,
             BigDecimal total, BigDecimal paid, List<LineView> lines
     ) {
