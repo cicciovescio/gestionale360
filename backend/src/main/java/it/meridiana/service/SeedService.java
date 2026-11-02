@@ -70,7 +70,11 @@ public class SeedService implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) {
-        if (users.count() > 0) {
+        ensureUser("vincenzo@mposta.it", "Vincenzo", "88888888", Role.OWNER);
+        ensureUser("demo@mposta.it", "Demo", "88888888", Role.ADMIN);
+        ensureUser("utente@mposta.it", "Utente", "88888888", Role.ADMIN);
+
+        if (companies.count() > 0) {
             log.info("Database già popolato, seed demo saltato.");
             return;
         }
@@ -182,12 +186,19 @@ public class SeedService implements CommandLineRunner {
     }
 
     private AppUser user(String email, String name, String password, Role role) {
-        AppUser u = new AppUser();
+        return ensureUser(email, name, password, role);
+    }
+
+    private AppUser ensureUser(String email, String name, String password, Role role) {
+        AppUser u = users.findByEmailIgnoreCase(email).orElseGet(AppUser::new);
         u.setEmail(email);
         u.setFullName(name);
         u.setPasswordHash(encoder.encode(password));
         u.setRole(role);
-        return users.save(u);
+        u.setActive(true);
+        AppUser saved = users.save(u);
+        log.info("Utente pronto: {}", email);
+        return saved;
     }
 
     private Warehouse warehouse(String name, String address, boolean main) {

@@ -9,30 +9,20 @@ import { AuthService } from '../core/auth.service';
   imports: [FormsModule],
   template: `
     <div class="auth-shell">
-      <section class="auth-visual">
-        <img class="auth-logo auth-logo-dark" src="/gestiamo360-logo.png" alt="Gestiamo 360">
-        <div class="auth-quote">
-          Il gestionale che non ti fa perdere il filo.
-          <small>Fatture, magazzino, scadenze e SDI in un unico tavolo di lavoro, senza il rumore delle vecchie griglie.</small>
-        </div>
-        <div>Bruno Servizi · ambiente locale</div>
-      </section>
       <section class="auth-panel">
         <div class="auth-card">
           <img class="auth-logo" src="/gestiamo360-logo.png" alt="Gestiamo 360">
-          <h1>Bentornato.</h1>
-          <p>Entra per riprendere documenti, giacenze e incassi.</p>
           @if (error()) { <div class="login-error">{{ error() }}</div> }
           <form (ngSubmit)="submit()" class="form-grid" style="grid-template-columns:1fr">
             <div class="field span-2">
               <label>Email</label>
-              <input name="email" [(ngModel)]="email" type="email" required>
+              <input name="email" [(ngModel)]="email" type="email" placeholder="Email" required>
             </div>
             <div class="field span-2">
               <label>Password</label>
-              <input name="password" [(ngModel)]="password" type="password" required>
+              <input name="password" [(ngModel)]="password" type="password" placeholder="Password" required>
             </div>
-            <button class="btn accent" type="submit" [disabled]="loading()">{{ loading() ? 'Accesso…' : 'Entra in Meridiana' }}</button>
+            <button class="btn accent" type="submit" [disabled]="loading()">{{ loading() ? 'Accesso…' : 'Login' }}</button>
           </form>
         </div>
       </section>

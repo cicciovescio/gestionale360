@@ -16,8 +16,8 @@ import { day, euro, statusChip, statusLabel } from '../core/money';
       <a class="btn accent" routerLink="/app/vendite/fatture/new">Nuova fattura</a>
     </div>
     <div class="kpis">
-      <div class="kpi"><span>Crediti clienti</span><strong>{{ euro(data()?.receivables) }}</strong><em>IVA inclusa</em></div>
-      <div class="kpi"><span>Debiti fornitori</span><strong>{{ euro(data()?.payables) }}</strong><em>da saldare</em></div>
+      <div class="kpi credit"><span>Crediti clienti</span><strong>{{ euro(data()?.receivables) }}</strong><em>IVA inclusa</em></div>
+      <div class="kpi debt"><span>Debiti fornitori</span><strong>{{ euro(data()?.payables) }}</strong><em>IVA inclusa</em></div>
       <div class="kpi"><span>Vendite del mese</span><strong>{{ euro(data()?.monthSales) }}</strong></div>
       <div class="kpi"><span>Acquisti del mese</span><strong>{{ euro(data()?.monthPurchases) }}</strong></div>
     </div>

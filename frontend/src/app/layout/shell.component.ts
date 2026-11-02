@@ -9,10 +9,18 @@ import { NAV, NavItem } from './nav';
   imports: [RouterOutlet, RouterLink, RouterLinkActive],
   template: `
     <div class="app-shell">
-      <aside class="sidebar">
+      <header class="topbar">
         <div class="brand">
           <img class="brand-logo" src="/gestiamo360-logo.png" alt="Gestiamo 360">
         </div>
+        <div class="crumbs"><b>{{ title }}</b></div>
+        <div class="filters">
+          <span class="chip ok">Fatture elettroniche disponibili {{ credits }}</span>
+          <button class="btn ghost small" (click)="palette.set(true)">Cerca</button>
+          <div class="avatar" title="{{ auth.user()?.fullName }}">{{ initials() }}</div>
+        </div>
+      </header>
+      <aside class="sidebar">
         <div class="side-search">
           <input placeholder="Cerca o premi Ctrl K" (focus)="palette.set(true)">
         </div>
@@ -42,13 +50,6 @@ import { NAV, NavItem } from './nav';
         </div>
       </aside>
       <main class="workspace">
-        <header class="topbar">
-          <div class="crumbs">Meridiana · <b>{{ title }}</b></div>
-          <div class="filters">
-            <span class="chip ok">FE {{ credits }} crediti</span>
-            <button class="btn ghost small" (click)="palette.set(true)">Cerca</button>
-          </div>
-        </header>
         <section class="page">
           <router-outlet />
         </section>
