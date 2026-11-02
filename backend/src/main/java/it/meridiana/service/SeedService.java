@@ -20,9 +20,12 @@ import it.meridiana.repo.LookupRepository;
 import it.meridiana.repo.PartyRepository;
 import it.meridiana.repo.WarehouseRepository;
 import it.meridiana.repo.WorkEventRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -31,6 +34,7 @@ import java.util.List;
 
 @Component
 public class SeedService implements CommandLineRunner {
+    private static final Logger log = LoggerFactory.getLogger(SeedService.class);
     private final AppUserRepository users;
     private final PasswordEncoder encoder;
     private final CompanyRepository companies;
@@ -64,10 +68,13 @@ public class SeedService implements CommandLineRunner {
     }
 
     @Override
+    @Transactional
     public void run(String... args) {
         if (users.count() > 0) {
+            log.info("Database già popolato, seed demo saltato.");
             return;
         }
+        log.info("Carico utenti, anagrafiche e documenti demo...");
         AppUser bruno = user("bruno@mposta.it", "Bruno Esposito", "Bruno2006@", Role.OWNER);
         user("anna@meridiana.local", "Anna Ricci", "Anna2026@", Role.ADMIN);
         user("luca@meridiana.local", "Luca Ferrara", "Luca2026@", Role.WAREHOUSE);
@@ -171,6 +178,7 @@ public class SeedService implements CommandLineRunner {
         documents.convert(order.id(), DocumentType.SALE_INVOICE);
         bruno.setFullName("Bruno Esposito");
         users.save(bruno);
+        log.info("Dati demo pronti. Login: bruno@mposta.it / Bruno2006@");
     }
 
     private AppUser user(String email, String name, String password, Role role) {

@@ -35,10 +35,40 @@ App su http://localhost:4200
 
 Altri utenti: `anna@meridiana.local` / `Anna2026@`, `luca@meridiana.local` / `Luca2026@`
 
-## PostgreSQL (opzionale)
+## Avvio su un server con Docker
+
+Basta **Docker** (`docker ps` deve funzionare). Compose non è necessario.
+
+Copia il progetto sul server, entra nella cartella e lancia:
+
+```bash
+chmod +x deploy.sh
+./deploy.sh
+```
+
+Al primo avvio l’API crea da sola gli utenti e i dati di test (anagrafiche, documenti, magazzino, scadenze).
+
+Poi apri `http://IP-DEL-SERVER` (porta 80).
+
+- Email: `bruno@mposta.it`
+- Password: `Bruno2006@`
+
+Comandi utili:
+
+```bash
+docker ps
+docker logs -f api
+docker logs -f web
+docker rm -f web api postgres          # stop (i dati restano)
+docker volume rm meridiana_pgdata      # CANCELLA il database (al prossimo ./deploy.sh il seed riparte)
+```
+
+Per un’altra porta: `APP_PORT=8088 ./deploy.sh`
+
+### PostgreSQL in locale (senza tutto lo stack)
 
 ```powershell
-docker compose up -d
+docker compose up -d postgres
 cd backend
 mvn spring-boot:run -Dspring-boot.run.profiles=postgres
 ```

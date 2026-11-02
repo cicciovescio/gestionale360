@@ -24,7 +24,7 @@ spring:
       write-dates-as-timestamps: false
 
 meridiana:
-  jwt-secret: "meridiana-local-dev-secret-change-me-32chars-min!!"
+  jwt-secret: ${MERIDIANA_JWT_SECRET:meridiana-local-dev-secret-change-me-32chars-min!!}
   jwt-hours: 12
 
 ---
@@ -33,9 +33,12 @@ spring:
     activate:
       on-profile: postgres
   datasource:
-    url: jdbc:postgresql://localhost:5432/meridiana
-    username: meridiana
-    password: meridiana
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres:5432/meridiana}
+    username: ${SPRING_DATASOURCE_USERNAME:meridiana}
+    password: ${SPRING_DATASOURCE_PASSWORD:meridiana}
+    hikari:
+      connection-timeout: 30000
+      initialization-fail-timeout: 60000
   jpa:
     hibernate:
       ddl-auto: update
