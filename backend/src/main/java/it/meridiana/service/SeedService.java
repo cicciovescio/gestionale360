@@ -44,6 +44,7 @@ public class SeedService implements CommandLineRunner {
     private final LookupRepository lookups;
     private final WorkEventRepository events;
     private final DocumentService documents;
+    private final FinanceService finance;
 
     public SeedService(
             AppUserRepository users,
@@ -54,7 +55,8 @@ public class SeedService implements CommandLineRunner {
             WarehouseRepository warehouses,
             LookupRepository lookups,
             WorkEventRepository events,
-            DocumentService documents
+            DocumentService documents,
+            FinanceService finance
     ) {
         this.users = users;
         this.encoder = encoder;
@@ -65,6 +67,7 @@ public class SeedService implements CommandLineRunner {
         this.lookups = lookups;
         this.events = events;
         this.documents = documents;
+        this.finance = finance;
     }
 
     @Override
@@ -73,6 +76,7 @@ public class SeedService implements CommandLineRunner {
         ensureUser("vincenzo@mposta.it", "Vincenzo", "88888888", Role.OWNER);
         ensureUser("demo@mposta.it", "Demo", "88888888", Role.ADMIN);
         ensureUser("utente@mposta.it", "Utente", "88888888", Role.ADMIN);
+        finance.ensureDemo();
 
         if (companies.count() > 0) {
             log.info("Database già popolato, seed demo saltato.");

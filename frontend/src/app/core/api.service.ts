@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Company, Dashboard, Doc, Installment, Item, Ledger, Party, Stock, User, Work } from './models';
+import { BudgetLine, Company, Dashboard, Doc, Installment, Investment, Item, Ledger, Loan, Party, PlanView, Stock, User, Work } from './models';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -50,4 +50,34 @@ export class ApiService {
   company() { return this.http.get<Company>('/api/company'); }
   saveCompany(c: Company) { return this.http.put<Company>('/api/company', c); }
   search(q: string) { return this.http.get<any>('/api/search', { params: { q } }); }
+
+  financeOverview(year = new Date().getFullYear()) {
+    return this.http.get<any>('/api/finance/overview', { params: { year } });
+  }
+  financePlan(year = new Date().getFullYear()) {
+    return this.http.get<PlanView>('/api/finance/plan', { params: { year } });
+  }
+  saveBudget(line: BudgetLine) {
+    return line.id
+      ? this.http.put<BudgetLine>(`/api/finance/plan/${line.id}`, line)
+      : this.http.post<BudgetLine>('/api/finance/plan', line);
+  }
+  deleteBudget(id: string) { return this.http.delete(`/api/finance/plan/${id}`); }
+  investments() { return this.http.get<Investment[]>('/api/finance/investments'); }
+  saveInvestment(i: Investment) {
+    return i.id
+      ? this.http.put<Investment>(`/api/finance/investments/${i.id}`, i)
+      : this.http.post<Investment>('/api/finance/investments', i);
+  }
+  deleteInvestment(id: string) { return this.http.delete(`/api/finance/investments/${id}`); }
+  loans() { return this.http.get<Loan[]>('/api/finance/loans'); }
+  saveLoan(l: Loan) {
+    return l.id
+      ? this.http.put<Loan>(`/api/finance/loans/${l.id}`, l)
+      : this.http.post<Loan>('/api/finance/loans', l);
+  }
+  payLoan(id: string, amount: number) {
+    return this.http.post<Loan>(`/api/finance/loans/${id}/pay`, { amount, method: 'BONIFICO' });
+  }
+  deleteLoan(id: string) { return this.http.delete(`/api/finance/loans/${id}`); }
 }

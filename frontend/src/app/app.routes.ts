@@ -16,6 +16,9 @@ import { StatsComponent } from './pages/stats.component';
 import { StockComponent } from './pages/stock.component';
 import { TreasuryComponent } from './pages/treasury.component';
 import { XmlComponent } from './pages/xml.component';
+import { FinancePlanComponent } from './pages/finance-plan.component';
+import { FinanceInvestmentsComponent } from './pages/finance-investments.component';
+import { FinanceDebtComponent } from './pages/finance-debt.component';
 
 const party = (kind: string, title: string, slug: string) => ([
   { path: `anagrafiche/${slug}`, component: PartyListComponent, data: { kind, title, newPath: `/app/anagrafiche/${slug}/new` } },
@@ -66,6 +69,9 @@ export const routes: Routes = [
       { path: 'prima-nota', component: LedgerComponent },
       { path: 'statistiche', component: StatsComponent },
       { path: 'eventi/planning', component: EventsComponent },
+      { path: 'finanza/piano', component: FinancePlanComponent },
+      { path: 'finanza/investimenti', component: FinanceInvestmentsComponent },
+      { path: 'finanza/debiti', component: FinanceDebtComponent },
       { path: 'fe', component: XmlComponent },
       { path: 'impostazioni', component: SettingsComponent }
     ]

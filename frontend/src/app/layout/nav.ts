@@ -46,6 +46,11 @@ export const NAV = [
     { label: 'Prima nota', path: '/app/prima-nota' },
     { label: 'Statistiche', path: '/app/statistiche' }
   ]},
+  { label: 'Sostenibilità', items: [
+    { label: 'Pianificazione finanziaria', path: '/app/finanza/piano' },
+    { label: 'Investimenti', path: '/app/finanza/investimenti' },
+    { label: 'Indebitamento', path: '/app/finanza/debiti' }
+  ]},
   { label: 'Sistema', items: [
     { label: 'Fatture elettroniche', path: '/app/fe' },
     { label: 'Azienda', path: '/app/impostazioni' }

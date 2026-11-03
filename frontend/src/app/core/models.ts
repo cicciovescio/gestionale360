@@ -168,6 +168,75 @@ export interface Company {
   einvoiceCredits?: number;
 }
 
+export interface BudgetLine {
+  id?: string;
+  year?: number;
+  month?: number;
+  kind: 'REVENUE' | 'COST';
+  category?: string;
+  amount?: number;
+  notes?: string;
+}
+
+export interface MonthPlan {
+  month: number;
+  label: string;
+  plannedRevenue: number;
+  plannedCost: number;
+  plannedNet: number;
+  actualRevenue: number;
+  actualCost: number;
+  actualNet: number;
+  variance: number;
+}
+
+export interface PlanView {
+  year: number;
+  plannedRevenue: number;
+  plannedCost: number;
+  plannedNet: number;
+  actualRevenue: number;
+  actualCost: number;
+  actualNet: number;
+  months: MonthPlan[];
+  lines: BudgetLine[];
+}
+
+export interface Investment {
+  id?: string;
+  name: string;
+  category?: string;
+  amount?: number;
+  startDate?: string;
+  usefulLifeYears?: number;
+  expectedAnnualReturn?: number;
+  salvageValue?: number;
+  notes?: string;
+  paybackYears?: number;
+  roiPct?: number;
+  annualDepreciation?: number;
+  verdict?: string;
+  verdictLevel?: string;
+}
+
+export interface Loan {
+  id?: string;
+  bank: string;
+  purpose?: string;
+  principal?: number;
+  annualRatePct?: number;
+  startDate?: string;
+  durationMonths?: number;
+  installment?: number;
+  paid?: number;
+  notes?: string;
+  remaining?: number;
+  annualDebtService?: number;
+  dscr?: number;
+  verdict?: string;
+  verdictLevel?: string;
+}
+
 export const DOC_LABELS: Record<string, string> = {
   SALE_QUOTE: 'Offerta',
   SALE_ORDER: 'Ordine cliente',

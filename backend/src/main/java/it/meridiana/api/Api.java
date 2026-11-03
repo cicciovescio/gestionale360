@@ -1,5 +1,6 @@
 package it.meridiana.api;
 
+import it.meridiana.domain.BudgetKind;
 import it.meridiana.domain.DocumentStatus;
 import it.meridiana.domain.DocumentType;
 import it.meridiana.domain.EinvoiceStatus;
@@ -118,6 +119,55 @@ public final class Api {
             List<Map<String, Object>> byCustomer,
             List<Map<String, Object>> byItem,
             List<Map<String, Object>> vatSummary
+    ) {
+    }
+
+    public record BudgetEntryView(
+            String id, Integer year, Integer month, BudgetKind kind, String category,
+            BigDecimal amount, String notes
+    ) {
+    }
+
+    public record MonthPlan(
+            int month, String label,
+            BigDecimal plannedRevenue, BigDecimal plannedCost, BigDecimal plannedNet,
+            BigDecimal actualRevenue, BigDecimal actualCost, BigDecimal actualNet,
+            BigDecimal variance
+    ) {
+    }
+
+    public record PlanView(
+            int year,
+            BigDecimal plannedRevenue, BigDecimal plannedCost, BigDecimal plannedNet,
+            BigDecimal actualRevenue, BigDecimal actualCost, BigDecimal actualNet,
+            List<MonthPlan> months,
+            List<BudgetEntryView> lines
+    ) {
+    }
+
+    public record InvestmentView(
+            String id, String name, String category, BigDecimal amount, LocalDate startDate,
+            Integer usefulLifeYears, BigDecimal expectedAnnualReturn, BigDecimal salvageValue, String notes,
+            BigDecimal paybackYears, BigDecimal roiPct, BigDecimal annualDepreciation,
+            String verdict, String verdictLevel
+    ) {
+    }
+
+    public record LoanView(
+            String id, String bank, String purpose, BigDecimal principal, BigDecimal annualRatePct,
+            LocalDate startDate, Integer durationMonths, BigDecimal installment, BigDecimal paid, String notes,
+            BigDecimal remaining, BigDecimal annualDebtService, BigDecimal dscr,
+            String verdict, String verdictLevel
+    ) {
+    }
+
+    public record FinanceOverview(
+            int year,
+            BigDecimal plannedNet, BigDecimal actualNet,
+            BigDecimal invested, BigDecimal expectedReturn, BigDecimal avgRoi,
+            long sustainableInvestments, long investmentCount,
+            BigDecimal debtRemaining, BigDecimal annualDebtService, BigDecimal dscr,
+            String debtVerdict, String debtLevel
     ) {
     }
 }

@@ -36,6 +36,9 @@ public class PostgresSchemaFix implements CommandLineRunner {
             toText(s, "item");
             toText(s, "company");
             toText(s, "work_event");
+            toText(s, "budget_entry");
+            toText(s, "investment");
+            toText(s, "bank_loan");
         }
     }
 
